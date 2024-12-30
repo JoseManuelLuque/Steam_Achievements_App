@@ -20,19 +20,7 @@ fun GameSelectionScreen(navController: NavHostController, viewModel: Achievement
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Button(
-            onClick = {
-                viewModel.fetchPlayerSummaries(
-                    "7C799FA749E1088DC8DFEEEC066CA8AA",
-                    "76561198949068578"
-                )
 
-                navController.navigate("profile")
-            },
-            modifier = Modifier.padding(vertical = 8.dp)
-        ) {
-            Text("Perfil")
-        }
         games.forEach { (gameName, appId) ->
             Button(
                 onClick = {

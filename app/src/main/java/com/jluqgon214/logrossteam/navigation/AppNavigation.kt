@@ -11,15 +11,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.jluqgon214.logrossteam.components.BottomNavigationBar
+import com.jluqgon214.logrossteam.database.AppDatabase
 import com.jluqgon214.logrossteam.model.viewmodel.AchievementsViewModel
 import com.jluqgon214.logrossteam.screens.GameSelectionScreen
 import com.jluqgon214.logrossteam.screens.LoadingScreen
 import com.jluqgon214.logrossteam.screens.Profile
 import com.jluqgon214.logrossteam.screens.achievements.AchievementDetailScreen
 import com.jluqgon214.logrossteam.screens.achievements.AchievementsScreen
+import com.jluqgon214.logrossteam.screens.user.LoginScreen
+import com.jluqgon214.logrossteam.screens.user.RegisterScreen
 
 @Composable
-fun AppNavigation(viewModel: AchievementsViewModel) {
+fun AppNavigation(viewModel: AchievementsViewModel, db: AppDatabase) {
     val navController = rememberNavController()
 
 
@@ -30,7 +33,7 @@ fun AppNavigation(viewModel: AchievementsViewModel) {
             .statusBarsPadding(),
         bottomBar = { BottomNavigationBar(navController) }
     ) { innerPadding ->
-        NavHost(navController, startDestination = "gameSelection") {
+        NavHost(navController, startDestination = "login") {
             composable("gameSelection") {
                 GameSelectionScreen(navController, viewModel)
             }
@@ -48,6 +51,18 @@ fun AppNavigation(viewModel: AchievementsViewModel) {
 
             composable("profile") {
                 Profile(navController, viewModel)
+            }
+
+            composable("login") {
+                LoginScreen(navController, db) { username, password ->
+                    // Lógica después del login
+                    navController.navigate("gameSelection")
+                }
+            }
+            composable("register") {
+                RegisterScreen(navController, db) { username, password, steamId, apiKey ->
+                    // Lógica después del registro
+                }
             }
         }
     }
