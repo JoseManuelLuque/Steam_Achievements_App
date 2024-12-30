@@ -1,12 +1,15 @@
 package com.jluqgon214.logrossteam.screens
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -14,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
@@ -30,6 +34,8 @@ fun Profile(navController: NavController, viewModel: AchievementsViewModel) {
 
     // Recuperar los datos del perfil de steam
     val playerSummaries by viewModel.playerSummaries.collectAsState()
+
+    val context = LocalContext.current
 
 
     // Columna con los datos del perfil de steam
@@ -75,6 +81,19 @@ fun Profile(navController: NavController, viewModel: AchievementsViewModel) {
                 Text(text = "Última vez en línea: ${formatTimestamp(player.lastlogoff)}")
                 // Texto con la cantidad de amigos
                 // Texto con la cantidad de logros
+
+                Row {
+                    Button(onClick = {
+                        val sharedPreferences =
+                            context.getSharedPreferences("login_prefs", Context.MODE_PRIVATE)
+                        sharedPreferences.edit().clear().apply()
+                        navController.navigate("login") {
+                            popUpTo("login") { inclusive = true }
+                        }
+                    }) {
+                        Text("Logout")
+                    }
+                }
             }
         } ?: run {
             Text(text = "Cargando datos del perfil...")
