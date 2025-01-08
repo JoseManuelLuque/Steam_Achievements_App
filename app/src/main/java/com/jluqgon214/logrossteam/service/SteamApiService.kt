@@ -3,6 +3,7 @@ package com.jluqgon214.logrossteam.service
 import com.jluqgon214.logrossteam.model.GameSchemaResponse
 import com.jluqgon214.logrossteam.model.PlayerSummariesResponse
 import com.jluqgon214.logrossteam.model.achievement.AchievementsResponse
+import com.jluqgon214.logrossteam.model.ownedGames.OwnedGamesResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -28,6 +29,16 @@ interface SteamApiService {
         @Query("key") apiKey: String,
         @Query("steamids") steamIds: String
     ): PlayerSummariesResponse
+
+
+    @GET("IPlayerService/GetOwnedGames/v0001/")
+    suspend fun getOwnedGames(
+        @Query("key") apiKey: String,
+        @Query("steamid") steamId: String,
+        @Query("include_appinfo") includeAppInfo: Boolean = true,
+        @Query("include_played_free_games") includePlayedFreeGames: Boolean = false,
+        @Query("format") format: String = "json"
+    ): OwnedGamesResponse
 
     companion object {
         private const val BASE_URL = "https://api.steampowered.com/"

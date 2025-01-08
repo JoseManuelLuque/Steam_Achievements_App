@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 
 @Composable
-fun LoadingScreen(navController: NavController) {
+fun LoadingScreen() {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -28,13 +28,5 @@ fun LoadingScreen(navController: NavController) {
             .fillMaxWidth()
             .height(32.dp))
         Text("Cargando...")
-
-        LaunchedEffect(Unit) {
-            // Espera a que la petición se complete
-            delay(2000)
-
-            // Navega a la pantalla de logros después de que la petición se complete
-            navController.navigate("achievements")
-        }
     }
 }

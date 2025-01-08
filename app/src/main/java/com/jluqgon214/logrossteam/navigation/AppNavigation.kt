@@ -1,5 +1,6 @@
 package com.jluqgon214.logrossteam.navigation
 
+import GameSelectionScreen
 import android.media.MediaPlayer
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +17,6 @@ import com.jluqgon214.logrossteam.R
 import com.jluqgon214.logrossteam.components.BottomNavigationBar
 import com.jluqgon214.logrossteam.database.AppDatabase
 import com.jluqgon214.logrossteam.model.viewmodel.AchievementsViewModel
-import com.jluqgon214.logrossteam.screens.GameSelectionScreen
 import com.jluqgon214.logrossteam.screens.LoadingScreen
 import com.jluqgon214.logrossteam.screens.Profile
 import com.jluqgon214.logrossteam.screens.SplashScreen
@@ -56,7 +56,7 @@ fun AppNavigation(viewModel: AchievementsViewModel, db: AppDatabase) {
                 achievement?.let { AchievementDetailScreen(it) }
             }
             composable("loading") {
-                LoadingScreen(navController)
+                LoadingScreen()
             }
 
             composable("profile") {

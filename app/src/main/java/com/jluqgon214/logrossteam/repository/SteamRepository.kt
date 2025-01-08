@@ -2,6 +2,7 @@ package com.jluqgon214.logrossteam.repository
 
 import com.jluqgon214.logrossteam.model.PlayerSummary
 import com.jluqgon214.logrossteam.model.achievement.Achievement
+import com.jluqgon214.logrossteam.model.ownedGames.GameInfo
 import com.jluqgon214.logrossteam.service.SteamApiService
 
 class SteamRepository(private val apiService: SteamApiService) {
@@ -33,5 +34,10 @@ class SteamRepository(private val apiService: SteamApiService) {
     suspend fun getPlayerSummaries(apiKey: String, steamIds: String): List<PlayerSummary> {
         val playerSummariesResponse = apiService.getPlayerSummaries(apiKey, steamIds)
         return playerSummariesResponse.response.players
+    }
+
+    suspend fun getOwnedGames(apiKey: String, steamId: String): List<GameInfo> {
+        val ownedGamesResponse = apiService.getOwnedGames(apiKey, steamId)
+        return ownedGamesResponse.response.games
     }
 }

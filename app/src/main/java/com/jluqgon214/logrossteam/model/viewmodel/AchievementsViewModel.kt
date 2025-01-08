@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jluqgon214.logrossteam.model.PlayerSummary
 import com.jluqgon214.logrossteam.model.achievement.Achievement
+import com.jluqgon214.logrossteam.model.ownedGames.GameInfo
 import com.jluqgon214.logrossteam.repository.SteamRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -43,5 +44,15 @@ class AchievementsViewModel(private val repository: SteamRepository) : ViewModel
 
     fun setSelectedGameName(gameName: String) {
         _selectedGameName.value = gameName
+    }
+
+    private val _ownedGames = MutableStateFlow<List<GameInfo>>(emptyList())
+    val ownedGames: StateFlow<List<GameInfo>> = _ownedGames
+
+    fun fetchOwnedGames(apiKey: String, steamId: String) {
+        viewModelScope.launch {
+            val games = repository.getOwnedGames(apiKey, steamId)
+            _ownedGames.value = games
+        }
     }
 }

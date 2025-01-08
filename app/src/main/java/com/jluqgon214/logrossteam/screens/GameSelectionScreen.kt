@@ -1,48 +1,61 @@
-package com.jluqgon214.logrossteam.screens
-
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.jluqgon214.logrossteam.components.GameRow
 import com.jluqgon214.logrossteam.model.viewmodel.AchievementsViewModel
+import com.jluqgon214.logrossteam.screens.LoadingScreen
 
 @Composable
 fun GameSelectionScreen(navController: NavHostController, viewModel: AchievementsViewModel) {
-    val games = mapOf("The Forest" to "242760", "Rust" to "252490", "Slime Rancher" to "433340")
+    var searchQuery by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(true) }
+    val games by viewModel.ownedGames.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-
-        games.forEach { (gameName, appId) ->
-            Button(
-                onClick = {
-                    // Llama a fetchAchievements con tus parámetros
-                    viewModel.fetchAchievements(
-                        "7C799FA749E1088DC8DFEEEC066CA8AA",
-                        "76561198949068578",
-                        appId
-                    )
-
-                    // Guardo el nombre del juego seleccionado
-                    viewModel.setSelectedGameName(gameName)
-
-                    // Espera a que la petición se complete
-                    navController.navigate("loading")
-                },
-                modifier = Modifier.padding(vertical = 8.dp)
-            ) {
-                Text(text = gameName)
-            }
+    LaunchedEffect(Unit) {
+        viewModel.fetchOwnedGames("7C799FA749E1088DC8DFEEEC066CA8AA", "76561198949068578").let {
+            isLoading = false
         }
     }
 
+    if (isLoading) {
+        LoadingScreen()
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+            OutlinedTextField(
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                label = { Text("Buscar juego") },
+                trailingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Buscar"
+                    )
+                }
+            )
 
+            val filteredGames = games.filter { it.name.contains(searchQuery, ignoreCase = true) }
+
+            LazyColumn {
+                items(filteredGames) { game ->
+                    GameRow(game, navController, viewModel)
+                }
+            }
+        }
+    }
 }
