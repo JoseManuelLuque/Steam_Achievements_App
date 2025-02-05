@@ -8,6 +8,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.jluqgon214.logrossteam.components.GameRow
@@ -39,7 +40,8 @@ fun GameSelectionScreen(navController: NavHostController, viewModel: Achievement
                 onValueChange = { searchQuery = it },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp),
+                    .padding(8.dp)
+                    .testTag("SearchField"),
                 label = { Text("Buscar juego") },
                 trailingIcon = {
                     Icon(

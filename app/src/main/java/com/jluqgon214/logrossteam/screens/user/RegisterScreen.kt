@@ -1,7 +1,10 @@
 package com.jluqgon214.logrossteam.screens.user
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -41,6 +45,9 @@ fun RegisterScreen(
     var apiKey by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
     var errorMessage by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+
 
     LazyColumn(
         modifier = Modifier
@@ -65,30 +72,52 @@ fun RegisterScreen(
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = it },
-                label = { Text("Username") }
+                label = { Text("Usuario") }
             )
         }
         item {
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it },
-                label = { Text("Password") },
+                label = { Text("Contraseña") },
                 visualTransformation = PasswordVisualTransformation()
             )
         }
         item {
-            OutlinedTextField(
-                value = steamId,
-                onValueChange = { steamId = it },
-                label = { Text("Steam ID") }
-            )
+            Column{
+                OutlinedTextField(
+                    value = steamId,
+                    onValueChange = { steamId = it },
+                    label = { Text("Steam ID") }
+                )
+                TextButton(onClick = {
+                    val intent = Intent(
+                        Intent.ACTION_VIEW, Uri.parse(
+                            "https://store.steampowered.com/account/"
+                        )
+                    )
+                    context.startActivity(intent)
+                }) {
+                    Text(text = "Mirar tu ID de Steam")
+                }
+            }
         }
         item {
-            OutlinedTextField(
-                value = apiKey,
-                onValueChange = { apiKey = it },
-                label = { Text("API Key") }
-            )
+            Column{
+                OutlinedTextField(
+                    value = apiKey,
+                    onValueChange = { apiKey = it },
+                    label = { Text("API Key") }
+                )
+                TextButton(onClick = {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(
+                        "https://steamcommunity.com/dev/apikey"
+                    ))
+                    context.startActivity(intent)
+                }) {
+                    Text(text = "Obtener tu API Key")
+                }
+            }
         }
         item {
             if (errorMessage.isNotEmpty()) {

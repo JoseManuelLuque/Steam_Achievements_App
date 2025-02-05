@@ -1,7 +1,6 @@
 package com.jluqgon214.logrossteam.navigation
 
 import GameSelectionScreen
-import android.media.MediaPlayer
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -9,11 +8,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.jluqgon214.logrossteam.R
 import com.jluqgon214.logrossteam.components.BottomNavigationBar
 import com.jluqgon214.logrossteam.database.AppDatabase
 import com.jluqgon214.logrossteam.model.viewmodel.AchievementsViewModel
@@ -28,7 +25,6 @@ import com.jluqgon214.logrossteam.screens.user.RegisterScreen
 @Composable
 fun AppNavigation(viewModel: AchievementsViewModel, db: AppDatabase) {
     val navController = rememberNavController()
-    val context = LocalContext.current
 
     Scaffold(
         modifier = Modifier

@@ -107,7 +107,7 @@ fun LoginScreen(navController: NavController, db: AppDatabase, onLogin: (String,
                             navController.popBackStack() // Borrar la pantalla de Login del trazo de navegación para que no se pueda acceder al el volviendo atras
                             navController.navigate("gameSelection")
                         } else {
-                            errorMessage = "Invalid username or password"
+                            errorMessage = "Usuario o contraseña invalidos"
                         }
                     }
                 }) {
