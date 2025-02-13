@@ -5,6 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jluqgon214.logrossteam.database.AppDatabase
 import com.jluqgon214.logrossteam.model.PlayerSummary
 import com.jluqgon214.logrossteam.model.achievement.Achievement
 import com.jluqgon214.logrossteam.model.ownedGames.GameInfo
@@ -13,9 +14,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class AchievementsViewModel(private val repository: SteamRepository) : ViewModel() {
+class AchievementsViewModel(private val repository: SteamRepository, private val database: AppDatabase) : ViewModel() {
     private val _achievements = mutableStateOf<List<Achievement>>(emptyList())
     val achievements: MutableState<List<Achievement>> = _achievements
+
+    /*// Comprobar si el usuario está autenticado
+    fun fetchdUserData(username: String, password: String) {
+        val user = database.userDao().getUser(username, password)
+    }*/
 
     fun fetchAchievements(apiKey: String, steamId: String, appId: String) {
         viewModelScope.launch {

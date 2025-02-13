@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.room.Room
 import com.jluqgon214.logrossteam.database.AppDatabase
+import com.jluqgon214.logrossteam.database.User
 import com.jluqgon214.logrossteam.model.viewmodel.AchievementsViewModel
 import com.jluqgon214.logrossteam.model.viewmodel.AchievementsViewModelFactory
 import com.jluqgon214.logrossteam.navigation.AppNavigation
